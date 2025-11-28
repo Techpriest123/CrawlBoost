@@ -26,6 +26,7 @@ namespace CrawlBoost
 
             GetWebsite(sender, e);
 
+            LoadingImage.IsVisible = false;
         }
         private void URL_KeyDown(object sender, KeyEventArgs e)
         {
@@ -62,9 +63,8 @@ namespace CrawlBoost
                 {
                     var html = new HtmlDocument();
                     html.LoadHtml(document.DocumentElement.OuterHTML);
-                    int[] metrics = Parser.GetMetrics(html, URL.Text);
-                    SecondWindow.Text = "On Page GEO: " + metrics[0] + "\n" +
-                                       "Performance: " + metrics[3] + "\n";
+                    int metrics = Parser.GetMetrics(html, URL.Text);
+                    SecondWindow.Text = "On Page GEO: " + metrics;
                     LoadingImage.IsVisible = false;
                 }
             }
