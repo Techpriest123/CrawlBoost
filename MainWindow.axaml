@@ -1,9 +1,47 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CrawlBoost.MainWindow"
+        Width="400"
+        Height="250"
         Title="CrawlBoost">
-    Welcome to Avalonia!
+
+    <Grid>
+        <StackPanel x:Name="MainScreen"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="10">
+
+            <TextBox x:Name="InputBox"
+                     Width="200"
+                     Watermark="Enter URL" />
+
+            <Button x:Name="OpenButton"
+                    Width="200"
+                    Height="40"
+                    Click="OpenButton_Click">
+                Open
+            </Button>
+
+            <ProgressBar x:Name="LoadingBar"
+                         Width="200"
+                         IsVisible="False"
+                         IsIndeterminate="True" />
+        </StackPanel>
+
+        <StackPanel x:Name="SecondScreen"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="10"
+                    IsVisible="False">
+
+            <TextBlock Text="Welcome to the second screen"
+                       FontSize="20"
+                       HorizontalAlignment="Center"/>
+            
+            <Button Width="200"
+                    Click="BackButton_Click">
+                Back
+            </Button>
+        </StackPanel>
+    </Grid>
 </Window>

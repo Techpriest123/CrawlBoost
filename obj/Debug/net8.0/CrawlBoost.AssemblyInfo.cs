@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CrawlBoost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a80c829fd10094fdbce01866fce930301ff46d19")]
 [assembly: System.Reflection.AssemblyProductAttribute("CrawlBoost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CrawlBoost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
