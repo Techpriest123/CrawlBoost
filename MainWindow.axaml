@@ -38,11 +38,11 @@
                        Text="Welcome to the second screen"
                        FontSize="20"
                        HorizontalAlignment="Center"
-                       FontFamily="Segoe UI" /> <!-- Используем шрифт, который поддерживает все символы -->
+                       FontFamily="Segoe UI" /> <!-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ -->
             
             <Button Width="200"
                     Click="BackButton_Click">
-                Назад
+                пїЅпїЅпїЅпїЅпїЅ
             </Button>
         </StackPanel>
     </Grid>
