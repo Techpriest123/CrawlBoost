@@ -24,10 +24,4 @@
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="SecondWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-  </ItemGroup>
 </Project>
