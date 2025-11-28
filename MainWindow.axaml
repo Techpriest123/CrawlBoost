@@ -51,6 +51,7 @@
                     VerticalAlignment="Center"
                     Spacing="10"
                     IsVisible="False">
+
                     
            <Image x:Name="LoadingImage"
            Source="resm:CrawlBoost.Assets.Logo.png?assembly=CrawlBoost"
@@ -60,8 +61,45 @@
 
             <TextBlock x:Name="SecondWindow"
                        FontSize="20"
+                       Margin="10"
                        HorizontalAlignment="Center"/>
-            
+             <TextBlock x:Name="ThirdWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+             <TextBlock x:Name="FourthWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+             <TextBlock x:Name="FifthWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+            <TextBlock x:Name="SixthWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+            <TextBlock x:Name="SeventhWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+            <TextBlock x:Name="EighthWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+            <TextBlock x:Name="NinethWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+            <TextBlock x:Name="TenthWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+             <TextBlock x:Name="EleventhWindow"
+                       FontSize="20"
+                       Margin="10"
+                       HorizontalAlignment="Center"/>
+
             <Button Width="200"
                     Click="BackButton_Click">
                 Back
