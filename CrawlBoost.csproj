@@ -25,6 +25,7 @@
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
   </ItemGroup>
+<<<<<<< HEAD
 <ItemGroup>
 	<EmbeddedResource Include="Assets\*.svg" />
 </ItemGroup>
@@ -34,4 +35,6 @@
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\*.gif" />
 	</ItemGroup>
+=======
+>>>>>>> 7a0598ac2534973dcb248e62d179dbe5f049e26d
 </Project>
