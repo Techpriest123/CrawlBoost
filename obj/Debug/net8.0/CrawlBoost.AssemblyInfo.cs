@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CrawlBoost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f9803ff4fb0357ba7cfb0f9d1d8da72dec86d386")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d518cade9764c36945dfc1ed46db272ca4a49f1a")]
 [assembly: System.Reflection.AssemblyProductAttribute("CrawlBoost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CrawlBoost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
