@@ -73,3 +73,17 @@ C:\Users\Admin\source\repos\CrawlBoost\obj\Debug\net8.0\refint\CrawlBoost.dll
 C:\Users\Admin\source\repos\CrawlBoost\obj\Debug\net8.0\CrawlBoost.pdb
 C:\Users\Admin\source\repos\CrawlBoost\obj\Debug\net8.0\CrawlBoost.genruntimeconfig.cache
 C:\Users\Admin\source\repos\CrawlBoost\obj\Debug\net8.0\ref\CrawlBoost.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\Aspose.HTML.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\HtmlAgilityPack.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\System.Drawing.Common.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\System.Security.Permissions.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\Avalonia.Svg.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\ExCSS.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\ShimSkiaSharp.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\Svg.Custom.dll
+C:\Users\Admin\source\repos\CrawlBoost\bin\Debug\net8.0\Svg.Model.dll

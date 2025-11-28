@@ -1,8 +1,9 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="CrawlBoost.MainWindow"
-        Width="400"
-        Height="250"
+        Width="1920"
+        Height="1080"
+        Background="#92B1F3"
         Title="CrawlBoost">
 
     <Grid>
@@ -11,21 +12,38 @@
                     VerticalAlignment="Center"
                     Spacing="10">
 
-            <TextBox x:Name="InputBox"
-                     Width="200"
-                     Watermark="Enter URL" />
+            <Image Source="resm:CrawlBoost.Assets.Logo.png?assembly=CrawlBoost" 
+       Width="400" 
+       Height="400" 
+       Margin="20" />
+
+
+            <TextBox x:Name="URL"
+                     Background="#F8F8F8"
+                     Foreground="#B0B0B0"
+                     BorderBrush="#D0D0D0"
+                     BorderThickness="1"
+                     CornerRadius="12"
+                     Padding="12,8"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontSize="16"
+                     Width="600"
+                     Watermark="Enter URL" 
+                     KeyDown="URL_KeyDown"
+                     />
 
             <Button x:Name="OpenButton"
-                    Width="200"
-                    Height="40"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Width="300"
+                    Height="50"
                     Click="OpenButton_Click">
-                Open
+                Analyze
             </Button>
 
-            <ProgressBar x:Name="LoadingBar"
-                         Width="200"
-                         IsVisible="False"
-                         IsIndeterminate="True" />
         </StackPanel>
 
         <StackPanel x:Name="SecondScreen"
@@ -33,8 +51,14 @@
                     VerticalAlignment="Center"
                     Spacing="10"
                     IsVisible="False">
+                    
+           <Image x:Name="LoadingImage"
+           Source="resm:CrawlBoost.Assets.Logo.png?assembly=CrawlBoost"
+           Width="100"
+           Height="100"
+           Margin="10" />
 
-            <TextBlock Text="Welcome to the second screen"
+            <TextBlock x:Name="SecondWindow"
                        FontSize="20"
                        HorizontalAlignment="Center"/>
             

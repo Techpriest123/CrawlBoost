@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
+<<<<<<< HEAD
 VisualStudioVersion = 18.0.11222.15
+=======
+VisualStudioVersion = 18.0.11222.15 d18.0
+>>>>>>> bec2b4adec176b8feba42e45d4688ea785fb304c
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlBoost", "CrawlBoost.csproj", "{207D612C-0F42-1359-604F-7B5B41BEF648}"
 EndProject

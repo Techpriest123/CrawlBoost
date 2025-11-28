@@ -1,3 +1,4 @@
+C:\Users\Admin\.nuget\packages\aspose.html\25.10.0\lib\netstandard2.0\Aspose.HTML.dll
 C:\Users\Admin\.nuget\packages\avalonia\11.3.6\ref\net8.0\Avalonia.Base.dll
 C:\Users\Admin\.nuget\packages\avalonia.controls.colorpicker\11.3.6\lib\net8.0\Avalonia.Controls.ColorPicker.dll
 C:\Users\Admin\.nuget\packages\avalonia\11.3.6\ref\net8.0\Avalonia.Controls.dll
@@ -16,22 +17,29 @@ C:\Users\Admin\.nuget\packages\avalonia.native\11.3.6\lib\net8.0\Avalonia.Native
 C:\Users\Admin\.nuget\packages\avalonia\11.3.6\ref\net8.0\Avalonia.OpenGL.dll
 C:\Users\Admin\.nuget\packages\avalonia.remote.protocol\11.3.6\lib\net8.0\Avalonia.Remote.Protocol.dll
 C:\Users\Admin\.nuget\packages\avalonia.skia\11.3.6\lib\net8.0\Avalonia.Skia.dll
+C:\Users\Admin\.nuget\packages\avalonia.svg\11.3.0\lib\net8.0\Avalonia.Svg.dll
 C:\Users\Admin\.nuget\packages\avalonia.themes.fluent\11.3.6\lib\net8.0\Avalonia.Themes.Fluent.dll
 C:\Users\Admin\.nuget\packages\avalonia.themes.simple\11.3.6\lib\net8.0\Avalonia.Themes.Simple.dll
 C:\Users\Admin\.nuget\packages\avalonia\11.3.6\ref\net8.0\Avalonia.Vulkan.dll
 C:\Users\Admin\.nuget\packages\avalonia.win32\11.3.6\lib\net8.0\Avalonia.Win32.Automation.dll
 C:\Users\Admin\.nuget\packages\avalonia.win32\11.3.6\lib\net8.0\Avalonia.Win32.dll
 C:\Users\Admin\.nuget\packages\avalonia.x11\11.3.6\lib\net8.0\Avalonia.X11.dll
+C:\Users\Admin\.nuget\packages\excss\4.3.0\lib\net8.0\ExCSS.dll
 C:\Users\Admin\.nuget\packages\harfbuzzsharp\8.3.1.1\lib\net8.0\HarfBuzzSharp.dll
+C:\Users\Admin\.nuget\packages\htmlagilitypack\1.12.4\lib\net7.0\HtmlAgilityPack.dll
 C:\Users\Admin\.nuget\packages\microcom.runtime\0.11.0\lib\net5.0\MicroCom.Runtime.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\Microsoft.CSharp.dll
+C:\Users\Admin\.nuget\packages\microsoft.extensions.logging.abstractions\7.0.0\lib\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\Microsoft.VisualBasic.Core.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\Microsoft.VisualBasic.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\Microsoft.Win32.Primitives.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\Microsoft.Win32.Registry.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\mscorlib.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\netstandard.dll
+C:\Users\Admin\.nuget\packages\shimskiasharp\3.0.2\lib\net8.0\ShimSkiaSharp.dll
 C:\Users\Admin\.nuget\packages\skiasharp\2.88.9\lib\net6.0\SkiaSharp.dll
+C:\Users\Admin\.nuget\packages\svg.custom\3.0.2\lib\net8.0\Svg.Custom.dll
+C:\Users\Admin\.nuget\packages\svg.model\3.0.2\lib\net8.0\Svg.Model.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.AppContext.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Buffers.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Collections.Concurrent.dll
@@ -62,6 +70,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Diagnostics.TraceSource.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Diagnostics.Tracing.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.dll
+C:\Users\Admin\.nuget\packages\system.drawing.common\4.7.3\ref\netcoreapp3.0\System.Drawing.Common.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Drawing.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Drawing.Primitives.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Dynamic.Runtime.dll
@@ -152,6 +161,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Security.Cryptography.Primitives.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Security.Cryptography.X509Certificates.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Security.dll
+C:\Users\Admin\.nuget\packages\system.security.permissions\4.5.0\ref\netstandard2.0\System.Security.Permissions.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Security.Principal.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Security.Principal.Windows.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.22\ref\net8.0\System.Security.SecureString.dll
