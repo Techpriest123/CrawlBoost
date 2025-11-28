@@ -1,59 +1,52 @@
-﻿using Aspose.Html;
-using Avalonia.Controls;
-using HtmlAgilityPack;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Tmds.DBus.Protocol;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using HtmlAgilityPack;
 
 namespace CrawlBoost
 {
-    internal static class Parser
+    internal static partial class Parser
     {
-        internal static int onPageGEO = 100;
-        internal static int links = 100;
-        internal static int usability = 100;
-        internal static int performance = 100;
-        internal static int social = 100;
+        private const int margin = 10;
 
-        internal static List<HtmlNode> h1Tags = new();
-        internal static List<HtmlNode> otherHTags = new();
+        internal static int onPageGEO = 100;
+
+        internal static List<HtmlNode> h1Tags = [];
+        internal static List<HtmlNode> otherHTags = [];
         internal static string metaDescription = "";
         internal static string metaTitle = "";
         internal static bool containsLang = false;
-        internal static List<string> keywords = new();
+        internal static List<string> keywords = [];
         internal static string content = "";
         internal static bool imageWithNoAlt = false;
         internal static bool noCanonicalTag = true;
         internal static bool noindexTag = true;
-        internal static List<string> visitedLinks = new();
+        internal static bool hasJsonLd = false;
 
-        internal static int[] GetMetrics(HtmlDocument html, string url)
+        internal static int GetMetrics(HtmlDocument html, string url)
         {
             Parse(html);
             Validate(url);
-            return [onPageGEO, links, usability, performance, social];
+            return Math.Clamp(onPageGEO, 0, 100);
         }
 
         internal static void Validate(string url)
         {
-            onPageGEO -= containsLang ? 0 : 11;
-            onPageGEO -= imageWithNoAlt ? 0 : 11;
-            onPageGEO -= noCanonicalTag ? 11 : 0;
-            onPageGEO -= noindexTag ? 0 : 11;
-            if (h1Tags.Count() > 1) onPageGEO -= 11;
-            if (otherHTags.Count() < 1) onPageGEO -= 11;
-            if (metaDescription.Length > 160 && metaDescription.Length < 120) onPageGEO -= 11;
-            if (metaTitle.Length > 60 && metaTitle.Length < 50) onPageGEO -= 11;
-            if (content.Split(" ").Length < 300) onPageGEO -= 11; 
-
-            performance = 100 - LoadingSpeedValidation(FormatUrl(url));
+            if (!containsLang) onPageGEO -= margin;
+            if (imageWithNoAlt) onPageGEO -= margin;
+            if (noCanonicalTag) onPageGEO -= margin;
+            if (!noindexTag) onPageGEO -= margin;
+            if (h1Tags.Count > 1) onPageGEO -= margin;
+            if (otherHTags.Count < 1) onPageGEO -= margin;
+            if (metaDescription.Length > 160 && metaDescription.Length < 120) onPageGEO -= margin;
+            if (metaTitle.Length > 60 && metaTitle.Length < 50) onPageGEO -= margin;
+            if (content.Split(" ").Length < 300) onPageGEO -= margin;
+            if (ValidateRobots(url)) onPageGEO -= margin;
+            if (!hasJsonLd) onPageGEO -= margin;
         }
 
         private static void Parse(HtmlDocument html)
@@ -79,6 +72,7 @@ namespace CrawlBoost
                     {
                         content += text + " ";
                     }
+                if (node.Name == "script") hasJsonLd = node.GetAttributeValue("type", "").Contains("ld+json");
             }
         }
 
@@ -93,16 +87,34 @@ namespace CrawlBoost
             }
         }
 
+        private static bool ValidateRobots(string url)
+        {
+            try
+            {
+                HttpWebRequest? request = WebRequest.Create(url + "/robots.txt") as HttpWebRequest ?? throw new();
+                request.Method = "HEAD";
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse ?? throw new();
+                response.Close();
+                string? robots = "";
+                if (response.StatusCode == HttpStatusCode.OK) 
+                {
+                    using (var client = new WebClient())
+                    {
+                        robots = client.DownloadData(url + "/robots.txt").ToString();
+                    }
+                }
+                return robots != null ? robots.Split("\n").Contains("Disallow: /") : throw new();
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         internal static bool ValidateUrl(string? url)
         {
             if (url == null || url == "") return false;
-            var urlRegex = new Regex(
-                @"(?:[a-zA-Z0-9]" +
-                        @"(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}" +
-                        @"(?::(?:0|[1-9]\d{0,3}|[1-5]\d{4}|6[0-4]\d{3}" +
-                        @"|65[0-4]\d{2}|655[0-2]\d|6553[0-5]))?" +
-                        @"(?:\/(?:[-a-zA-Z0-9@%_\+.~#?&=]+\/?)*)?$",
-                RegexOptions.IgnoreCase);
+            var urlRegex = UrlRegex();
 
             urlRegex.Matches(url);
 
@@ -111,13 +123,7 @@ namespace CrawlBoost
 
         internal static string FormatUrl(string url)
         {
-            var urlRegex = new Regex(
-                @"^(https?):\/\/(?:[a-zA-Z0-9]" +
-                        @"(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}" +
-                        @"(?::(?:0|[1-9]\d{0,3}|[1-5]\d{4}|6[0-4]\d{3}" +
-                        @"|65[0-4]\d{2}|655[0-2]\d|6553[0-5]))?" +
-                        @"(?:\/(?:[-a-zA-Z0-9@%_\+.~#?&=]+\/?)*)?$",
-                RegexOptions.IgnoreCase);
+            var urlRegex = UriRegex();
             urlRegex.Matches(url);
             if (!urlRegex.IsMatch(url))
             {
@@ -126,19 +132,9 @@ namespace CrawlBoost
             return url;
         }
 
-        internal static int LoadingSpeedValidation(string address)
-        {
-            System.Diagnostics.Stopwatch timer = new Stopwatch();
-
-            timer.Start();
-
-            new HttpClient().GetAsync(new Uri(address));
-
-            timer.Stop();
-
-            TimeSpan timeTaken = timer.Elapsed;
-
-            return Math.Clamp((int)(timeTaken.Milliseconds * 0.02f), 0, 100);
-        }
+        [GeneratedRegex(@"^(https?):\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::(?:0|[1-9]\d{0,3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5]))?(?:\/(?:[-a-zA-Z0-9@%_\+.~#?&=]+\/?)*)?$", RegexOptions.IgnoreCase, "ru-RU")]
+        private static partial Regex UriRegex();
+        [GeneratedRegex(@"(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::(?:0|[1-9]\d{0,3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5]))?(?:\/(?:[-a-zA-Z0-9@%_\+.~#?&=]+\/?)*)?$", RegexOptions.IgnoreCase, "ru-RU")]
+        private static partial Regex UrlRegex();
     }
 }
