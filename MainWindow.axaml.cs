@@ -2,8 +2,10 @@ using Aspose.Html;
 using Avalonia.Controls;
 using HtmlAgilityPack;
 using System;
+using System.Reflection;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace CrawlBoost;
 
@@ -31,19 +33,19 @@ public partial class MainWindow : Window
         {
             using (var document = new HTMLDocument(Parser.FormatUrl(URL.Text)))
             {
-                var html = new HtmlDocument();
-                html.LoadHtml(document.DocumentElement.OuterHTML);
-                int[] metrics = Parser.GetMetrics(html);
-                myTextBlock.Text = "On Page SEO: " + metrics[0] + "\n" +
-                                   "Links: " + metrics[1] + "\n" +
-                                   "Usability: " + metrics[2] + "\n" +
-                                   "Performance: " + metrics[3] + "\n" +
-                                   "Social: " + metrics[4] + "\n";
+            var html = new HtmlDocument();
+            html.LoadHtml(document.DocumentElement.OuterHTML);
+            int[] metrics = Parser.GetMetrics(html, URL.Text);
+            myTextBlock.Text = "On Page GEO: " + metrics[0] + "\n" +
+                               "Links: " + metrics[1] + "\n" +
+                               "Usability: " + metrics[2] + "\n" +
+                               "Performance: " + metrics[3] + "\n" +
+                               "Social: " + metrics[4] + "\n";
             }
         }
-        catch
+        catch (Exception exception)
         {
-            myTextBlock.Text = "Invalid URL";
+            myTextBlock.Text = exception.ToString();
         }
     }
 }

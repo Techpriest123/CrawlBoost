@@ -3,7 +3,10 @@ using Avalonia.Controls;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,38 +16,44 @@ namespace CrawlBoost
 {
     internal static class Parser
     {
-        internal static int onPageSEO = 100;
+        internal static int onPageGEO = 100;
         internal static int links = 100;
         internal static int usability = 100;
         internal static int performance = 100;
         internal static int social = 100;
 
-        private static List<HtmlNode> h1Tags = new();
-        private static List<HtmlNode> otherHTags = new();
-        private static string metaDescription = "";
-        private static string metaTitle = "";
-        private static bool containsLang = false;
-        private static List<string> keywords = new();
-        private static string content = "";
-        private static bool imageWithNoAlt = false;
-        private static bool noCanonicalTag = true;
-        private static bool noindexTag = true;
-        private static List<string> visitedLinks = new();
+        internal static List<HtmlNode> h1Tags = new();
+        internal static List<HtmlNode> otherHTags = new();
+        internal static string metaDescription = "";
+        internal static string metaTitle = "";
+        internal static bool containsLang = false;
+        internal static List<string> keywords = new();
+        internal static string content = "";
+        internal static bool imageWithNoAlt = false;
+        internal static bool noCanonicalTag = true;
+        internal static bool noindexTag = true;
+        internal static List<string> visitedLinks = new();
 
-        internal static int[] GetMetrics(HtmlDocument html)
+        internal static int[] GetMetrics(HtmlDocument html, string url)
         {
             Parse(html);
-            Validate();
-            social = content.Split(" ").Count();
-            return [onPageSEO, links, usability, performance, social];
+            Validate(url);
+            return [onPageGEO, links, usability, performance, social];
         }
 
-        internal static void Validate()
+        internal static void Validate(string url)
         {
-            links -= containsLang ? 0 : 10;
-            links -= imageWithNoAlt ? 0 : 10;
-            links -= noCanonicalTag ? 10 : 0;
-            links -= noindexTag ? 0 : 10;
+            onPageGEO -= containsLang ? 0 : 11;
+            onPageGEO -= imageWithNoAlt ? 0 : 11;
+            onPageGEO -= noCanonicalTag ? 11 : 0;
+            onPageGEO -= noindexTag ? 0 : 11;
+            if (h1Tags.Count() > 1) onPageGEO -= 11;
+            if (otherHTags.Count() < 1) onPageGEO -= 11;
+            if (metaDescription.Length > 160 && metaDescription.Length < 120) onPageGEO -= 11;
+            if (metaTitle.Length > 60 && metaTitle.Length < 50) onPageGEO -= 11;
+            if (content.Split(" ").Length < 300) onPageGEO -= 11; 
+
+            performance = 100 - LoadingSpeedValidation(FormatUrl(url));
         }
 
         private static void Parse(HtmlDocument html)
@@ -60,9 +69,9 @@ namespace CrawlBoost
                     node.Name == "h6"
                     ) otherHTags.Add(node);
                 if (node.Name == "meta") ParseMetaTag(node);
-                if (node.InnerText != null || node.InnerText != "")
-                {
-                    string text = node.InnerText;
+                if (node.Name == "img" && node.GetAttributeValue("alt", "") == "") imageWithNoAlt = true;
+                if (node.GetAttributeValue("rel", "") == "canonical") noCanonicalTag = false;
+                string text = node.InnerText;
                     Regex wordRegex = new Regex(
                     @"^\w+$", RegexOptions.IgnoreCase);
                     wordRegex.Matches(text);
@@ -70,10 +79,6 @@ namespace CrawlBoost
                     {
                         content += text + " ";
                     }
-                }
-                if (node.Name == "img" && node.GetAttributeValue("alt", "") == "") imageWithNoAlt = true;
-                if (node.GetAttributeValue("rel", "") == "canonical") noCanonicalTag = false;
-                
             }
         }
 
@@ -121,5 +126,19 @@ namespace CrawlBoost
             return url;
         }
 
+        internal static int LoadingSpeedValidation(string address)
+        {
+            System.Diagnostics.Stopwatch timer = new Stopwatch();
+
+            timer.Start();
+
+            new HttpClient().GetAsync(new Uri(address));
+
+            timer.Stop();
+
+            TimeSpan timeTaken = timer.Elapsed;
+
+            return Math.Clamp((int)(timeTaken.Milliseconds * 0.02f), 0, 100);
+        }
     }
 }
