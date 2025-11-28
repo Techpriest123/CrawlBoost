@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\source\\repos\\CrawlBoost\\CrawlBoost.csproj": {}
+    "D:\\CrawlBoost\\CrawlBoost.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\source\\repos\\CrawlBoost\\CrawlBoost.csproj": {
+    "D:\\CrawlBoost\\CrawlBoost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\CrawlBoost\\CrawlBoost.csproj",
+        "projectUniqueName": "D:\\CrawlBoost\\CrawlBoost.csproj",
         "projectName": "CrawlBoost",
-        "projectPath": "C:\\Users\\Admin\\source\\repos\\CrawlBoost\\CrawlBoost.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\source\\repos\\CrawlBoost\\obj\\",
+        "projectPath": "D:\\CrawlBoost\\CrawlBoost.csproj",
+        "packagesPath": "C:\\Users\\techwizrd\\.nuget\\packages\\",
+        "outputPath": "D:\\CrawlBoost\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\techwizrd\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -51,6 +51,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Aspose.HTML": {
+              "target": "Package",
+              "version": "[25.10.0, )"
+            },
             "Avalonia": {
               "target": "Package",
               "version": "[11.3.6, )"
@@ -70,6 +74,10 @@
             "Avalonia.Themes.Fluent": {
               "target": "Package",
               "version": "[11.3.6, )"
+            },
+            "HtmlAgilityPack": {
+              "target": "Package",
+              "version": "[1.12.4, )"
             }
           },
           "imports": [
