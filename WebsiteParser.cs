@@ -22,35 +22,37 @@ namespace CrawlBoost
 
         private int _onPageGEO = 100;
 
-        private List<HtmlNode> h1Tags = [];
-        private List<HtmlNode> otherHTags = [];
-        private string metaDescription = "";
-        private string metaTitle = "";
-        private bool containsLang = false;
-        private List<string> keywords = [];
-        private string content = "";
-        private bool imageWithNoAlt = false;
-        private int imagesWithAltCount = 0;
-        private int imagesWithoutAltCount = 0;
-        private bool noCanonicalTag = true;
-        private bool noindexTag = true;
-        private bool hasJsonLd = false;
-        private bool hasRobots = true;
-        private int wordCount = 0;
-        private double textToHtmlRatio = 0;
-        private int internalLinksCount = 0;
-        private int externalLinksCount = 0;
-        private bool hasViewportMeta = false;
-        private double loadTimeMs = 0;
+        internal List<HtmlNode> h1Tags = [];
+        internal List<HtmlNode> otherHTags = [];
+        internal string metaDescription = "";
+        internal string metaTitle = "";
+        internal bool containsLang = false;
+        internal List<string> keywords = [];
+        internal string content = "";
+        internal bool imageWithNoAlt = false;
+        internal int imagesWithAltCount = 0;
+        internal int imagesWithoutAltCount = 0;
+        internal bool noCanonicalTag = true;
+        internal bool noindexTag = true;
+        internal bool hasJsonLd = false;
+        internal bool hasRobots = true;
+        internal int wordCount = 0;
+        internal int internalLinksCount = 0;
+        internal int externalLinksCount = 0;
+        internal bool hasViewportMeta = false;
+        internal double loadTimeMs = 0;
+        internal int _aiCitationCount = 0;
+        internal double _citationAuthority = 0.0;
+        internal List<string> _citedSections = [];
 
-        internal async Task<int> GetMetricsAsync(string url)
+        internal async Task<(int, int, double)> GetMetricsAsync(string url)
         {
             ResetFields();
             HtmlDocument html = await FetchHtmlDocumentAsync(url);
             Parse(html);
             await ValidateRobotsAsync(url);
             Validate(url);
-            return Math.Clamp(_onPageGEO, 0, 100);
+            return (Math.Clamp(_onPageGEO, 0, 100), _aiCitationCount, _citationAuthority);
         }
 
         private void ResetFields()
@@ -71,11 +73,13 @@ namespace CrawlBoost
             hasJsonLd = false;
             hasRobots = true;
             wordCount = 0;
-            textToHtmlRatio = 0;
             internalLinksCount = 0;
             externalLinksCount = 0;
             hasViewportMeta = false;
             loadTimeMs = 0;
+            _aiCitationCount = 0;
+            _citationAuthority = 0.0;
+            _citedSections = [];
         }
 
         private void Validate(string url)
@@ -120,6 +124,11 @@ namespace CrawlBoost
             var technicalScore = CalculateTechnicalSeoScore();
             _onPageGEO -= technicalScore;
 
+            var citationStats = GetMockAICitationStatistic();
+            _aiCitationCount = citationStats.citationCount;
+            _citationAuthority = citationStats.citationAuthority;
+            _citedSections = citationStats.citedSections;
+
             ApplyBonusPoints();
         }
 
@@ -146,7 +155,7 @@ namespace CrawlBoost
                 }
                 else
                 {
-                    bonus += WEIGHT_LOW; 
+                    bonus += WEIGHT_LOW;
                 }
 
                 if (HasKeywordStuffing(metaTitle))
@@ -208,7 +217,7 @@ namespace CrawlBoost
             }
             else if (h1Tags.Count > 1)
             {
-                penalty += WEIGHT_MEDIUM; 
+                penalty += WEIGHT_MEDIUM;
             }
 
             if (otherHTags.Count == 0)
@@ -217,7 +226,7 @@ namespace CrawlBoost
             }
             else if (otherHTags.Count >= 3)
             {
-                
+
             }
 
             return penalty;
@@ -238,7 +247,7 @@ namespace CrawlBoost
             }
             else if (wordCount < 600)
             {
-                penalty += WEIGHT_LOW; 
+                penalty += WEIGHT_LOW;
             }
 
             if (HasKeywordStuffing(content))
@@ -254,11 +263,11 @@ namespace CrawlBoost
             int penalty = 0;
             int totalImages = imagesWithAltCount + imagesWithoutAltCount;
 
-            if (totalImages == 0) return 0; 
+            if (totalImages == 0) return 0;
 
             double altTextRatio = (double)imagesWithAltCount / totalImages;
 
-            if (altTextRatio < 0.5) 
+            if (altTextRatio < 0.5)
             {
                 penalty += WEIGHT_MEDIUM;
             }
@@ -444,6 +453,121 @@ namespace CrawlBoost
             {
                 hasRobots = false;
             }
+        }
+
+        private (int citationCount, double citationAuthority, List<string> citedSections) GetMockAICitationStatistic()
+        {
+            int baseCitationCount = CalculateBaseCitationCount();
+
+            double authorityScore = CalculateCitationAuthority();
+
+            List<string> citedSections = IdentifyCitedSections();
+
+            baseCitationCount = ApplyRandomVariation(baseCitationCount);
+
+            return (baseCitationCount, authorityScore, citedSections);
+        }
+
+        private int CalculateBaseCitationCount()
+        {
+            int baseCount = 0;
+
+            if (wordCount >= 1200) baseCount += 8;
+            else if (wordCount >= 800) baseCount += 5;
+            else if (wordCount >= 400) baseCount += 3;
+            else if (wordCount >= 200) baseCount += 1;
+
+            if (hasJsonLd) baseCount += 4;
+            if (!noCanonicalTag) baseCount += 3;
+            if (containsLang) baseCount += 2;
+
+            if (h1Tags.Count == 1) baseCount += 3;
+            if (otherHTags.Count >= 3) baseCount += 2;
+
+            if (imagesWithAltCount > imagesWithoutAltCount) baseCount += 2;
+            if (internalLinksCount > 5) baseCount += 2;
+            if (externalLinksCount > 2) baseCount += 3;
+
+            if (noindexTag) baseCount = Math.Max(0, baseCount - 10);
+            if (imageWithNoAlt) baseCount = Math.Max(0, baseCount - 3);
+            if (string.IsNullOrWhiteSpace(metaDescription)) baseCount = Math.Max(0, baseCount - 2);
+
+            return Math.Clamp(baseCount, 0, 25);
+        }
+
+        private double CalculateCitationAuthority()
+        {
+            double authority = 0.5;
+
+            if (wordCount >= 800) authority += 0.2;
+            if (hasJsonLd) authority += 0.15;
+            if (!noCanonicalTag) authority += 0.1;
+
+            if (h1Tags.Count == 1) authority += 0.08;
+            if (otherHTags.Count >= 3) authority += 0.07;
+            if (containsLang) authority += 0.05;
+            if (imagesWithAltCount > 5) authority += 0.05;
+
+            if (noindexTag) authority -= 0.3;
+            if (wordCount < 200) authority -= 0.2;
+            if (string.IsNullOrWhiteSpace(metaDescription)) authority -= 0.1;
+            if (imagesWithoutAltCount > imagesWithAltCount) authority -= 0.1;
+
+            return Math.Clamp(authority, 0.1, 0.95);
+        }
+
+        private List<string> IdentifyCitedSections()
+        {
+            var citedSections = new List<string>();
+            var random = new Random();
+
+            if (wordCount >= 800 && random.NextDouble() > 0.3)
+            {
+                citedSections.Add("comprehensive analysis");
+            }
+
+            if (hasJsonLd && random.NextDouble() > 0.4)
+            {
+                citedSections.Add("structured data");
+            }
+
+            if (otherHTags.Count >= 3 && random.NextDouble() > 0.5)
+            {
+                citedSections.Add("well-organized content structure");
+            }
+
+            if (imagesWithAltCount > 2 && random.NextDouble() > 0.6)
+            {
+                citedSections.Add("visual content with descriptions");
+            }
+
+            if (!string.IsNullOrWhiteSpace(metaDescription) && metaDescription.Length >= 120 && random.NextDouble() > 0.4)
+            {
+                citedSections.Add("summary information");
+            }
+
+            if (citedSections.Count == 0 && wordCount >= 300)
+            {
+                citedSections.Add("key information");
+            }
+
+            return citedSections;
+        }
+
+        private int ApplyRandomVariation(int baseCount)
+        {
+            if (baseCount == 0) return 0;
+
+            var random = new Random();
+            double variation = (random.NextDouble() - 0.5) * 0.4;
+
+            int variedCount = (int)(baseCount * (1 + variation));
+            return Math.Max(0, variedCount);
+        }
+
+        internal (int citationCount, double citationAuthority, List<string> citedSections) GetAICitationStats()
+        {
+            return GetMockAICitationStatistic();
         }
 
         internal static bool ValidateUrl(string? url)

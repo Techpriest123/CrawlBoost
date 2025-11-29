@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
         x:Class="CrawlBoost.MainWindow"
@@ -29,7 +29,7 @@
                      VerticalContentAlignment="Center"
                      FontSize="16"
                      Width="600"
-                     Watermark="Enter URL" 
+                     Watermark="Введите URL" 
                      KeyDown="URL_KeyDown"
                      />
 
@@ -60,10 +60,38 @@
 
             <TextBlock x:Name="SecondWindow" HorizontalAlignment="Center" Foreground="White"/>
 
+            <StackPanel x:Name="AverageScoreContainer" 
+                       HorizontalAlignment="Center" 
+                       Spacing="8"
+                       IsVisible="False"
+                       Margin="0,0,0,40">
+                <Grid Width="150" Height="150">
+                    <actipro:CircularProgressBar x:Name="AverageScoreProgress"
+                        Width="150" 
+                        Height="150" 
+                        Minimum="0" 
+                        Maximum="100" 
+                        IsProgressTextAllowed="False"
+                        IndicatorBrush="#4CAF50"
+                        LineThickness="12"/>
+                    <TextBlock x:Name="AverageGradeText"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="32"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+                </Grid>
+                <TextBlock Text="Overall Score" 
+                           HorizontalAlignment="Center" 
+                           FontSize="16" 
+                           FontWeight="Bold"
+                           Foreground="White"/>
+            </StackPanel>
+
             <StackPanel x:Name="ProgressBarsContainer" 
                        HorizontalAlignment="Center" 
                        Orientation="Horizontal" 
-                       Spacing="40"
+                       Spacing="60"
                        IsVisible="False">
                 <StackPanel HorizontalAlignment="Center" Spacing="8">
                     <Grid Width="100" Height="100">
@@ -72,18 +100,20 @@
                             Height="100" 
                             Minimum="0" 
                             Maximum="100" 
-                            IsProgressTextAllowed="False"/>
+                            IsProgressTextAllowed="False"
+                            IndicatorBrush="#2196F3"
+                            LineThickness="8" Margin="0,0,0,60"/>
                         <TextBlock x:Name="SchemaGradeText"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="24"
                                    FontWeight="Bold"
-                                   Foreground="White"/>
+                                   Foreground="White" Margin="0,0,0,60"/>
                     </Grid>
                     <TextBlock Text="Schema markup" 
                                HorizontalAlignment="Center" 
                                FontSize="14" 
-                               Foreground="White"/>
+                               Foreground="White"  Margin="0,0,0,60"/>
                 </StackPanel>
 
                 <StackPanel HorizontalAlignment="Center" Spacing="8">
@@ -92,8 +122,10 @@
                             Width="100" 
                             Height="100" 
                             Minimum="0" 
-                            Maximum="100" 
-                            IsProgressTextAllowed="False"/>
+                            Maximum="25" 
+                            IsProgressTextAllowed="False"
+                            IndicatorBrush="#FF9800"
+                            LineThickness="8"/>
                         <TextBlock x:Name="AICitationGradeText"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -101,12 +133,326 @@
                                    FontWeight="Bold"
                                    Foreground="White"/>
                     </Grid>
-                    <TextBlock Text="AI citation rating" 
+                    <TextBlock Text="Рейтинг цитирования" 
                                HorizontalAlignment="Center" 
                                FontSize="14" 
                                Foreground="White"/>
                 </StackPanel>
+
+                <StackPanel HorizontalAlignment="Center" Spacing="8">
+                    <Grid Width="100" Height="100">
+                        <actipro:CircularProgressBar x:Name="AuthorityProgress"
+                            Width="100" 
+                            Height="100" 
+                            Minimum="0" 
+                            Maximum="1" 
+                            IsProgressTextAllowed="False"
+                            IndicatorBrush="#9C27B0"
+                            LineThickness="8" Margin="0,0,0,60"/>
+                        <TextBlock x:Name="AuthorityGradeText"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="White"  Margin="0,0,0,60"/>
+                    </Grid>
+                    <TextBlock Text="Авторитетность" 
+                               HorizontalAlignment="Center" 
+                               FontSize="14" 
+                               Foreground="White" Margin="0,0,0,60"/>
+                </StackPanel>
             </StackPanel>
+
+            <Border x:Name="DetailsListContainer"
+                   Background="#FFFFFF"
+                   CornerRadius="12"
+                   Padding="20"
+                   HorizontalAlignment="Center"
+                   Width="800"
+                   MaxHeight="300"
+                   IsVisible="False"
+                   Margin="0,20,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="DetailsList" Spacing="10">
+                        <TextBlock Text="Детальный анализ"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="#333333"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,10"/>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Главный заговок" 
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="H1TagsIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                                <TextBlock Text="Рекомендуется иметь ровно один главный заголовок"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Другие заголовки" 
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="OtherTagsIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                                <TextBlock Text="Рекомендуется иметь заголовки разных размеров"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Мета тег description"
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="DescriptionIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                                <TextBlock Text="Описание сайта должно быть в пределе от 120 до 160 символов"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Мета тег title"
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TitleIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                                <TextBlock Text="Титул сайта должен быть в пределе от 50 до 60 символов"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Контент"
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="ContentIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                                <TextBlock Text="У сайта должен быть хороший объём текста"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Картинки подписаны"
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NoAltIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                                <TextBlock Text="У всех картинок должна быть подпись"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Мета тег canonical"
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NoCanonicalIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                                <TextBlock Text="Google рекомендует чтобы у страницы был тег canonical"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Тег noindex"
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="Мета тег noindex непозволяет ботам индексировать сайт"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NoindexIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="JSON-LD"
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="JSON-LD помогает нейросетям ориентироваться на сайте"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="JsonLdIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="8" Padding="15,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Robots.txt"
+                                           Foreground="#333333"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Text="Robots.txt говорит нейросетям можно ли читать страницу"
+                                           Grid.Column="1" 
+                                           Foreground="#333333"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="RobotsIcon"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="10,0"
+                                           VerticalAlignment="Center"
+                                           Text="?"
+                                           Foreground="Gray"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
 
             <Border x:Name="ErrorMessageContainer"
                    Background="#FF6B6B"

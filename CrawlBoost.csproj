@@ -27,6 +27,7 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
+    <PackageReference Include="Svg.Controls.Skia.Avalonia" Version="11.3.6.2" />
   </ItemGroup>
 <ItemGroup>
 	<EmbeddedResource Include="Assets\*.svg" />
