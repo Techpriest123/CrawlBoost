@@ -1,8 +1,9 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
         x:Class="CrawlBoost.MainWindow"
-        Width="1920"
-        Height="1080"
+        Width="1152"
+        Height="896"
         Background="#92B1F3"
         Title="CrawlBoost">
 
@@ -13,10 +14,9 @@
                     Spacing="10">
 
             <Image Source="resm:CrawlBoost.Assets.Logo.png?assembly=CrawlBoost" 
-       Width="400" 
-       Height="400" 
-       Margin="20" />
-
+                   Width="400" 
+                   Height="400" 
+                   Margin="20" />
 
             <TextBox x:Name="URL"
                      Background="#F8F8F8"
@@ -49,59 +49,93 @@
         <StackPanel x:Name="SecondScreen"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Spacing="10"
+                    Spacing="20"
                     IsVisible="False">
-
                     
-           <Image x:Name="LoadingImage"
-           Source="resm:CrawlBoost.Assets.Logo.png?assembly=CrawlBoost"
-           Width="100"
-           Height="100"
-           Margin="10" />
+            <Image x:Name="LoadingImage"
+                  Source="resm:CrawlBoost.Assets.Logo.png?assembly=CrawlBoost"
+                  Width="400"
+                  Height="400"
+                  Margin="10"/>
 
-            <TextBlock x:Name="SecondWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-             <TextBlock x:Name="ThirdWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-             <TextBlock x:Name="FourthWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-             <TextBlock x:Name="FifthWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-            <TextBlock x:Name="SixthWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-            <TextBlock x:Name="SeventhWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-            <TextBlock x:Name="EighthWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-            <TextBlock x:Name="NinethWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-            <TextBlock x:Name="TenthWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
-             <TextBlock x:Name="EleventhWindow"
-                       FontSize="20"
-                       Margin="10"
-                       HorizontalAlignment="Center"/>
+            <TextBlock x:Name="SecondWindow" HorizontalAlignment="Center" Foreground="White"/>
 
-            <Button Width="200"
-                    Click="BackButton_Click">
+            <StackPanel x:Name="ProgressBarsContainer" 
+                       HorizontalAlignment="Center" 
+                       Orientation="Horizontal" 
+                       Spacing="40"
+                       IsVisible="False">
+                <StackPanel HorizontalAlignment="Center" Spacing="8">
+                    <Grid Width="100" Height="100">
+                        <actipro:CircularProgressBar x:Name="SchemaScore"
+                            Width="100" 
+                            Height="100" 
+                            Minimum="0" 
+                            Maximum="100" 
+                            IsProgressTextAllowed="False"/>
+                        <TextBlock x:Name="SchemaGradeText"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="White"/>
+                    </Grid>
+                    <TextBlock Text="Schema markup" 
+                               HorizontalAlignment="Center" 
+                               FontSize="14" 
+                               Foreground="White"/>
+                </StackPanel>
+
+                <StackPanel HorizontalAlignment="Center" Spacing="8">
+                    <Grid Width="100" Height="100">
+                        <actipro:CircularProgressBar x:Name="AICitationProgress"
+                            Width="100" 
+                            Height="100" 
+                            Minimum="0" 
+                            Maximum="100" 
+                            IsProgressTextAllowed="False"/>
+                        <TextBlock x:Name="AICitationGradeText"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="White"/>
+                    </Grid>
+                    <TextBlock Text="AI citation rating" 
+                               HorizontalAlignment="Center" 
+                               FontSize="14" 
+                               Foreground="White"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Border x:Name="ErrorMessageContainer"
+                   Background="#FF6B6B"
+                   CornerRadius="12"
+                   Padding="20,15"
+                   HorizontalAlignment="Center"
+                   IsVisible="False">
+                <StackPanel HorizontalAlignment="Center" Spacing="8">
+                    <TextBlock x:Name="ErrorMessageText"
+                              Text="An error occurred while analyzing the website."
+                              HorizontalAlignment="Center"
+                              FontSize="16"
+                              Foreground="White"
+                              TextWrapping="Wrap"
+                              TextAlignment="Center"/>
+                    <TextBlock Text="Please check the URL and try again."
+                              HorizontalAlignment="Center"
+                              FontSize="14"
+                              Foreground="White"
+                              TextWrapping="Wrap"
+                              TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <Button x:Name="BackButton"
+                    Width="200"
+                    Click="BackButton_Click"
+                    Margin="0,20,0,0"
+                    IsVisible="False">
                 Back
             </Button>
         </StackPanel>

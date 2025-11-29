@@ -20,7 +20,9 @@ class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace();
+            .LogToTrace()
+            .RegisterActiproLicense("Future Actipro Customer", "AVA252-T4KET-DBQ5F-E5VF4-4VZH");
 
-    
+
+
 }

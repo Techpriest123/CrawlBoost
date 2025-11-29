@@ -1,8 +1,6 @@
-using Aspose.Html;
-using Avalonia.Controls;
+п»їusing Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using HtmlAgilityPack;
 using System;
 using System.Threading.Tasks;
 
@@ -10,6 +8,8 @@ namespace CrawlBoost
 {
     public partial class MainWindow : Window
     {
+        private static readonly System.Net.Http.HttpClient _httpClient = new System.Net.Http.HttpClient();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -17,16 +17,28 @@ namespace CrawlBoost
         private async void OpenButton_Click(object? sender, RoutedEventArgs e)
         {
             OpenButton.IsEnabled = false;
-
-            MainScreen.IsVisible = false;
-            SecondScreen.IsVisible = true;
-
             LoadingImage.IsVisible = true;
 
+            try
+            {
+                MainScreen.IsVisible = false;
+                SecondScreen.IsVisible = true;
 
-            GetWebsite(sender, e);
+                ProgressBarsContainer.IsVisible = false;
+                ErrorMessageContainer.IsVisible = false;
+                BackButton.IsVisible = false;
+                SchemaScore.IsVisible = false;
+                AICitationProgress.IsVisible = false;
 
-            LoadingImage.IsVisible = false;
+                SchemaGradeText.Text = "";
+                AICitationGradeText.Text = "";
+
+                await GetWebsiteAsync();
+            }
+            finally
+            {
+                LoadingImage.IsVisible = false;
+            }
         }
         private void URL_KeyDown(object sender, KeyEventArgs e)
         {
@@ -40,77 +52,88 @@ namespace CrawlBoost
         {
             SecondScreen.IsVisible = false;
             MainScreen.IsVisible = true;
-
             OpenButton.IsEnabled = true;
+            SchemaScore.IsVisible = false;
+            AICitationProgress.IsVisible = false;
+            ProgressBarsContainer.IsVisible = false;
+            ErrorMessageContainer.IsVisible = false;
+            BackButton.IsVisible = false;
+            SchemaGradeText.Text = "";
+            AICitationGradeText.Text = "";
         }
 
-        private void GetWebsite(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private async Task GetWebsiteAsync()
         {
-            SecondWindow.Text = "Prossesing";
-            if (URL.Text == null)
+
+            if (string.IsNullOrWhiteSpace(URL.Text))
             {
-                SecondWindow.Text = "Invaild URL";
+                ShowErrorMessage("Please enter a URL to analyze.");
                 return;
             }
-            if (!Parser.ValidateUrl(URL.Text))
+
+            var url = URL.Text.Trim();
+
+            if (!WebsiteParser.ValidateUrl(url))
             {
-                SecondWindow.Text = "Invalid URL";
+                ShowErrorMessage("Invalid URL format. Please enter a valid URL starting with http:// or https://");
                 return;
             }
+
             try
             {
-                using (var document = new HTMLDocument(Parser.FormatUrl(URL.Text)))
-                {
-                    var html = new HtmlDocument();
-                    html.LoadHtml(document.DocumentElement.OuterHTML);
-                    int metrics = Parser.GetMetrics(html, URL.Text);
-                    SecondWindow.Text = "Рейтинг GEO: " + metrics;
-                    LoadingImage.IsVisible = false;
-                }
+                var formattedUrl = WebsiteParser.FormatUrl(url);
+
+
+                var parser = new WebsiteParser();
+                int metrics = await parser.GetMetricsAsync(formattedUrl);
+
+                string grade = ConvertToLetterGrade(metrics);
+
+                ProgressBarsContainer.IsVisible = true;
+                SchemaScore.IsVisible = true;
+                AICitationProgress.IsVisible = true;
+
+                ProgressBarsContainer.IsVisible = true;
+                SchemaScore.IsVisible = true;
+                AICitationProgress.IsVisible = true;
+
+                SchemaScore.Value = metrics;
+                SchemaGradeText.Text = grade;
+
+                AICitationProgress.Value = 0;
+                AICitationGradeText.Text = "";
+
+                BackButton.IsVisible = true;
             }
-            catch
+            catch (Exception ex)
             {
-                SecondWindow.Text = "Invalid URL";
+                ShowErrorMessage($"Error analyzing website: {ex.Message}");
+
+                BackButton.IsVisible = true;
             }
-            if (Parser.h1Tags.Count == 1)
-            {
-                ThirdWindow.Text = "Главных заголовков больше чем один, это ухудшает читаемость кода нейросеть";
-            }
-            if (Parser.otherHTags.Count < 1)
-            {
-                FourthWindow.Text = "Других заголовков меньше одного! Использвоание разных заголовков помогает нейросети лучше понять содержание";
-            }
-            if (Parser.metaDescription.Length > 160 || Parser.metaDescription.Length < 120)
-            {
-                FifthWindow.Text = "Тег с описанием должен быть не больше 160 символов, но не меньше 120";
-            }
-            if (Parser.metaTitle.Length > 60 || Parser.metaTitle.Length < 50) 
-            {
-                SixthWindow.Text = "Заголовок не должен быть больше 60 символов, но и не меньше 50";
-            }
-            if (!Parser.containsLang)
-            {
-                SeventhWindow.Text = "Не найдена пометка о языке, без нее нейросети сложнее найти сайт на нужном языке";
-            }
-            if (Parser.imageWithNoAlt)
-            {
-                EighthWindow.Text = "На сайте есть картинка без подписи";
-            }
-        if (Parser.noCanonicalTag)
-            {
-                NinethWindow.Text = "Google рекомендует, чтобы у сайта был у страницы был тег Canonical";
-            }
-        if (!Parser.hasRobots)
-            {
-                TenthWindow.Text = "Боты не могут читать сайт";
-            }
-            if (!Parser.hasJsonLd)
-            {
-                EleventhWindow.Text = "Сайт не предоставляет контекстных тегов для нейросетей";
-            }
-            {
-                
-            }
+        }
+
+        private string ConvertToLetterGrade(int percentage)
+        {
+            return percentage >= 80 ? "A" :
+                   percentage >= 60 ? "B" :
+                   percentage >= 40 ? "C" :
+                   percentage >= 20 ? "D" : "F";
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            ErrorMessageText.Text = message;
+            ErrorMessageContainer.IsVisible = true;
+            ProgressBarsContainer.IsVisible = false;
+            SchemaScore.IsVisible = false;
+            AICitationProgress.IsVisible = false;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            _httpClient?.Dispose();
+            base.OnClosed(e);
         }
     }
 }
