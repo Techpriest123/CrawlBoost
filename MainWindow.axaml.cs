@@ -60,6 +60,11 @@ namespace CrawlBoost
                 SchemaGradeText.Text = "";
                 AICitationGradeText.Text = "";
                 AverageGradeText.Text = "";
+                AuthorityGradeText.Text = "";
+                SchemaGradeValue.Text = "";
+                AICitationGradeValue.Text = "";
+                AverageGradeValue.Text = "";
+                AuthorityGradeValue.Text = "";
 
                 await GetWebsiteAsync();
             }
@@ -93,6 +98,10 @@ namespace CrawlBoost
             AICitationGradeText.Text = "";
             AverageGradeText.Text = "";
             AuthorityGradeText.Text = "";
+            SchemaGradeValue.Text = "";
+            AICitationGradeValue.Text = "";
+            AverageGradeValue.Text = "";
+            AuthorityGradeValue.Text = "";
         }
 
         private async Task GetWebsiteAsync()
@@ -138,10 +147,14 @@ namespace CrawlBoost
 
                 AuthorityProgress.Value = citationAuthority;
                 AuthorityGradeText.Text = ConvertToLetterGrade((int)(citationAuthority * 100));
+                AuthorityGradeValue.Text = ((int)(citationAuthority * 100)).ToString();
 
                 AverageScoreProgress.Value = averageScore;
                 AverageGradeText.Text = averageScoreGrade;
                 DetailsListContainer.IsVisible = true;
+                SchemaGradeValue.Text = onPageScore.ToString();
+                AICitationGradeValue.Text = ((int)(citationCount / 25f * 100f)).ToString();
+                AverageGradeValue.Text = averageScore.ToString();
 
                 if (parser.h1Tags.Count == 1)
                 {
