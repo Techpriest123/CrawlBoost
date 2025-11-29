@@ -514,7 +514,7 @@
                     Click="BackButton_Click"
                     Margin="0,20,0,0"
                     IsVisible="False">
-                Back
+                Назад
             </Button>
         </StackPanel>
     </Grid>
