@@ -1,6 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:actipro="http://schemas.actiprosoftware.com/avaloniaui"
+        xmlns:local="clr-namespace:CrawlBoost"
         x:Class="CrawlBoost.MainWindow"
         Width="1152"
         Height="896"
@@ -66,13 +66,13 @@
                        IsVisible="False"
                        Margin="0,0,0,40">
                 <Grid Width="150" Height="150">
-                    <actipro:CircularProgressBar x:Name="AverageScoreProgress"
+                    <local:CircleBar x:Name="AverageScoreProgress"
                         Width="150" 
                         Height="150" 
                         Minimum="0" 
                         Maximum="100" 
-                        IsProgressTextAllowed="False"
                         IndicatorBrush="#4CAF50"
+                        BackgroundBrush="#E0E0E0"
                         LineThickness="12"/>
                     <StackPanel VerticalAlignment="Center">
                     <TextBlock x:Name="AverageGradeText"
@@ -103,13 +103,13 @@
                        IsVisible="False">
                 <StackPanel HorizontalAlignment="Center" Spacing="8">
                     <Grid Width="100" Height="100">
-                        <actipro:CircularProgressBar x:Name="SchemaScore"
+                        <local:CircleBar x:Name="SchemaScore"
                             Width="100" 
                             Height="100" 
                             Minimum="0" 
                             Maximum="100" 
-                            IsProgressTextAllowed="False"
                             IndicatorBrush="#2196F3"
+                            BackgroundBrush="#E0E0E0"
                             LineThickness="8" Margin="0,0,0,60"/>
                         <StackPanel VerticalAlignment="Center">
                         <TextBlock x:Name="SchemaGradeText"
@@ -134,13 +134,13 @@
 
                 <StackPanel HorizontalAlignment="Center" Spacing="8">
                     <Grid Width="100" Height="100">
-                        <actipro:CircularProgressBar x:Name="AICitationProgress"
+                        <local:CircleBar x:Name="AICitationProgress"
                             Width="100" 
                             Height="100" 
                             Minimum="0" 
                             Maximum="25" 
-                            IsProgressTextAllowed="False"
                             IndicatorBrush="#FF9800"
+                            BackgroundBrush="#E0E0E0"
                             LineThickness="8"/>
                         <StackPanel VerticalAlignment="Center">
                         <TextBlock x:Name="AICitationGradeText"
@@ -165,13 +165,13 @@
 
                 <StackPanel HorizontalAlignment="Center" Spacing="8">
                     <Grid Width="100" Height="100">
-                        <actipro:CircularProgressBar x:Name="AuthorityProgress"
+                        <local:CircleBar x:Name="AuthorityProgress"
                             Width="100" 
                             Height="100" 
                             Minimum="0" 
                             Maximum="1" 
-                            IsProgressTextAllowed="False"
                             IndicatorBrush="#9C27B0"
+                            BackgroundBrush="#E0E0E0"
                             LineThickness="8" Margin="0,0,0,60"/>
                         <StackPanel VerticalAlignment="Center">
                         <TextBlock x:Name="AuthorityGradeText"

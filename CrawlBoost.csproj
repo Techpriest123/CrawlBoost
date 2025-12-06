@@ -12,9 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ActiproSoftware.Controls.Avalonia" Version="25.2.1" />
-    <PackageReference Include="ActiproSoftware.Controls.Avalonia.Bars.Mvvm" Version="25.2.1" />
-    <PackageReference Include="ActiproSoftware.Controls.Avalonia.Pro" Version="25.2.1" />
     <PackageReference Include="Aspose.HTML" Version="25.10.0" />
     <PackageReference Include="Avalonia" Version="11.3.9" />
     <PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
